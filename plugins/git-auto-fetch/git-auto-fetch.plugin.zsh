@@ -18,18 +18,10 @@ function git-auto-fetch {
     echo "${fg_bold[red]}disabled${reset_color}")
 }
 
-# Override zle-line-init if it exists
-if (( $+functions[zle-line-init] )); then
-  eval "override-git-auto-fetch-$(declare -f zle-line-init)"
-  
-  function zle-line-init () {
-    git-fetch-all
-    override-git-auto-fetch-zle-line-init
-  }
-else
-  function zle-line-init () {
-    git-fetch-all
-  }
-fi
-  
+eval "override-git-auto-fetch-$(declare -f zle-line-init)"
+
+function zle-line-init () {
+  git-fetch-all
+  override-git-auto-fetch-zle-line-init
+}
 zle -N zle-line-init
